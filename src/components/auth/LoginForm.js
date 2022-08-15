@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLoginHook } from '../../hooks/auth/useLoginHook';
 
 const LoginFormBlock = styled.div`
   h3 {
@@ -36,11 +37,15 @@ const StyledButton = styled.button`
   outline: none;
   cursor: pointer;
   margin-top: 1rem;
-  background-color: #343a40;
+  background-color: #22b8cf;
   width: 100%;
 
   &:hover {
-    background-color: #868e96;
+    background-color: #3bc9db;
+  }
+
+  &:disabled {
+    background-color: #343a40;
   }
 `;
 const Footer = styled.div`
@@ -57,21 +62,36 @@ const Footer = styled.div`
   }
 `;
 function LoginForm() {
+  const { onSignIn, form, onChange } = useLoginHook();
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const { email, password } = form;
+    if (email === '' || password === '') {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [form]);
   return (
     <LoginFormBlock>
       <h3>로그인</h3>
-      <form>
+      <form onSubmit={onSignIn}>
         <StyledInput
           name="email"
           type="email"
+          value={form.email}
+          onChange={onChange}
           placeholder="이메일을 입력해주세요"
         />
         <StyledInput
           name="password"
           type="password"
+          value={form.password}
+          onChange={onChange}
           placeholder="비밀번호를 입력해주세요"
         />
-        <StyledButton>로그인</StyledButton>
+        <StyledButton disabled={error}>로그인</StyledButton>
       </form>
       <Footer>
         <Link to="/register">회원가입</Link>
