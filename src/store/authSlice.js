@@ -27,12 +27,14 @@ export const authSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.registerToken = action.payload;
+      state.registerError = null;
     },
     registerFailure: (state, action) => {
       state.registerError = action.payload;
     },
     loginSuccess: (state, action) => {
       state.auth = action.payload;
+      state.authError = null;
     },
     loginFailure: (state, action) => {
       state.authError = action.payload;
