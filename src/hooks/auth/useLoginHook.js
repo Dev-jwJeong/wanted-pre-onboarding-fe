@@ -57,7 +57,7 @@ export function useLoginHook() {
 
   useEffect(() => {
     if (auth) {
-      navigate('/todo');
+      window.location.replace('/todo');
       localStorage.setItem('token', JSON.stringify(auth));
     } else if (authError) {
       alert('아이디와 비밀번호가 없습니다.');
