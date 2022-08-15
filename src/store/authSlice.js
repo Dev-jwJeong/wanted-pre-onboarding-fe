@@ -1,9 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  email: '',
-  password: '',
+  login: {
+    email: '',
+    password: '',
+  },
+  register: {
+    email: '',
+    password: '',
+  },
   auth: null,
+  registerToken: null,
+  registerError: null,
   authError: null,
 };
 
@@ -12,13 +20,16 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     changeField: (state, action) => {
-      state.payload.key = action.payload.value;
+      state[action.payload.form][action.payload.key] = action.payload.value;
+    },
+    initializeForm: (state, action) => {
+      Object.assign(state[action.payload], initialState[action.payload]);
     },
     registerSuccess: (state, action) => {
-      state.auth = action.payload;
+      state.registerToken = action.payload;
     },
     registerFailure: (state, action) => {
-      state.authError = action.payload;
+      state.registerError = action.payload;
     },
     loginSuccess: (state, action) => {
       state.auth = action.payload;
@@ -35,6 +46,7 @@ export const {
   registerFailure,
   loginSuccess,
   loginFailure,
+  initializeForm,
 } = authSlice.actions;
 
 export default authSlice.reducer;
