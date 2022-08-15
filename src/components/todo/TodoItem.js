@@ -1,30 +1,13 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { MdDone, MdDelete } from 'react-icons/md';
-
-const Remove = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #dee2e6;
-  font-size: 24px;
-  cursor: pointer;
-  &:hover {
-    color: #ff6b6b;
-  }
-  display: none;
-`;
+import { MdDone, MdDelete, MdMode } from 'react-icons/md';
+import { useTodoItemHook } from '../../hooks/todo/useTodoItemHook';
 
 const TodoItemBlock = styled.div`
   display: flex;
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
-  &:hover {
-    ${Remove} {
-      display: initial;
-    }
-  }
 `;
 
 const CheckCircle = styled.div`
@@ -57,16 +40,25 @@ const Text = styled.div`
     `}
 `;
 
-function TodoItem() {
+const ExtraBlock = styled.div`
+  svg {
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+`;
+
+function TodoItem({ todo, onToggle }) {
+  const { onDeleteTodo } = useTodoItemHook();
   return (
     <TodoItemBlock>
-      <CheckCircle>
-        <MdDone />
+      <CheckCircle done={todo.isCompleted}>
+        {todo.isCompleted && <MdDone />}
       </CheckCircle>
-      <Text>11</Text>
-      <Remove>
-        <MdDelete />
-      </Remove>
+      <Text>{todo.todo}</Text>
+      <ExtraBlock>
+        <MdMode onClick={onToggle} />
+        <MdDelete onClick={() => onDeleteTodo(todo.id)} />
+      </ExtraBlock>
     </TodoItemBlock>
   );
 }
