@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete, MdMode } from 'react-icons/md';
 import { useTodoItemHook } from '../../hooks/todo/useTodoItemHook';
+import ModifyTodo from './ModifyTodo';
 
 const TodoItemBlock = styled.div`
   display: flex;
@@ -47,19 +48,22 @@ const ExtraBlock = styled.div`
   }
 `;
 
-function TodoItem({ todo, onToggle }) {
+function TodoItem({ toggle, todo, onToggle }) {
   const { onDeleteTodo } = useTodoItemHook();
   return (
-    <TodoItemBlock>
-      <CheckCircle done={todo.isCompleted}>
-        {todo.isCompleted && <MdDone />}
-      </CheckCircle>
-      <Text>{todo.todo}</Text>
-      <ExtraBlock>
-        <MdMode onClick={onToggle} />
-        <MdDelete onClick={() => onDeleteTodo(todo.id)} />
-      </ExtraBlock>
-    </TodoItemBlock>
+    <>
+      {toggle && <ModifyTodo onToggle={onToggle} id={todo.id} />}
+      <TodoItemBlock>
+        <CheckCircle done={todo.isCompleted}>
+          {todo.isCompleted && <MdDone />}
+        </CheckCircle>
+        <Text>{todo.todo}</Text>
+        <ExtraBlock>
+          <MdMode onClick={onToggle} />
+          <MdDelete onClick={() => onDeleteTodo(todo.id)} />
+        </ExtraBlock>
+      </TodoItemBlock>
+    </>
   );
 }
 

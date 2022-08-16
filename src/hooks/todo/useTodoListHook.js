@@ -40,7 +40,7 @@ export function useTodoListHook() {
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
     try {
       await axios.put(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/1320`,
+        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
         {
           todo: updateText,
           isCompleted: false,
@@ -60,7 +60,7 @@ export function useTodoListHook() {
   const onGetUpdateTodo = (id) => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm('수정하시겠습니까?') === true) {
-      getUpdateTodo();
+      getUpdateTodo(id);
     } else {
       return;
     }
