@@ -6,8 +6,8 @@ import TodoTemplate from '../components/todo/TodoTemplate';
 function TodoPage() {
   return (
     <TodoTemplate>
-      <TodoList />
       <TodoCreate />
+      <TodoList />
     </TodoTemplate>
   );
 }
