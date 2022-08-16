@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { MdDone, MdDelete, MdMode } from 'react-icons/md';
 import { useTodoItemHook } from '../../hooks/todo/useTodoItemHook';
 import ModifyTodo from './ModifyTodo';
+import { useTodoListHook } from '../../hooks/todo/useTodoListHook';
 
 const TodoItemBlock = styled.div`
   display: flex;
@@ -50,11 +51,15 @@ const ExtraBlock = styled.div`
 
 function TodoItem({ toggle, todo, onToggle }) {
   const { onDeleteTodo } = useTodoItemHook();
+  const { onGetCheckTodo } = useTodoListHook();
   return (
     <>
       {toggle && <ModifyTodo onToggle={onToggle} id={todo.id} />}
       <TodoItemBlock>
-        <CheckCircle done={todo.isCompleted}>
+        <CheckCircle
+          done={todo.isCompleted}
+          onClick={() => onGetCheckTodo(todo.id, todo.todo, todo.isCompleted)}
+        >
           {todo.isCompleted && <MdDone />}
         </CheckCircle>
         <Text>{todo.todo}</Text>

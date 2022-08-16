@@ -42,12 +42,18 @@ const StyledInput = styled.input`
 
 function ModifyTodo({ onToggle, id }) {
   const { updateText, onChange, onGetUpdateTodo } = useTodoListHook();
+
   return (
     <ModifyTodoBlock>
       <ModifyForm>
         <StyledInput type="text" value={updateText} onChange={onChange} />
         <div className="buttonWrapper">
-          <button onClick={() => onGetUpdateTodo(id)}>수정하기</button>
+          <button
+            style={{ marginLeft: '1rem' }}
+            onClick={() => onGetUpdateTodo(id)}
+          >
+            수정하기
+          </button>
           <button style={{ marginLeft: '1rem' }} onClick={onToggle}>
             취소
           </button>

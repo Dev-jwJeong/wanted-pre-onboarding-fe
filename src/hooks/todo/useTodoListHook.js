@@ -35,6 +35,28 @@ export function useTodoListHook() {
     );
   };
 
+  async function getUpdateCheck(id, text, completed) {
+    // eslint-disable-next-line no-useless-escape
+    const access_token = localStorage.getItem('token').replace(/\"/gi, '');
+    try {
+      await axios.put(
+        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
+        {
+          todo: text,
+          isCompleted: !completed,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        },
+      );
+      dispatch(updateTodoSuccess(true));
+    } catch (e) {
+      dispatch(updateTodoFailure(e));
+    }
+  }
+
   async function getUpdateTodo(id) {
     // eslint-disable-next-line no-useless-escape
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
@@ -61,6 +83,15 @@ export function useTodoListHook() {
     // eslint-disable-next-line no-restricted-globals
     if (confirm('수정하시겠습니까?') === true) {
       getUpdateTodo(id);
+    } else {
+      return;
+    }
+  };
+
+  const onGetCheckTodo = (id, text, completed) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm('상태를 바꾸시겠습니까?') === true) {
+      getUpdateCheck(id, text, completed);
     } else {
       return;
     }
@@ -92,5 +123,13 @@ export function useTodoListHook() {
     }
   }, [updateTodo]);
 
-  return { todo, onChange, updateText, onToggle, toggle, onGetUpdateTodo };
+  return {
+    todo,
+    onChange,
+    updateText,
+    onToggle,
+    toggle,
+    onGetUpdateTodo,
+    onGetCheckTodo,
+  };
 }
