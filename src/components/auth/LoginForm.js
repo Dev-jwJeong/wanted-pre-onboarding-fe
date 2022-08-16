@@ -63,16 +63,28 @@ const Footer = styled.div`
 `;
 function LoginForm() {
   const { onSignIn, form, onChange } = useLoginHook();
+  const [emailError, setEmailError] = useState(true);
   const [error, setError] = useState(false);
+
+  const onCheckEmail = () => {
+    const { email } = form;
+    const reg =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if (!reg.test(email)) {
+      setEmailError(false);
+    } else {
+      setEmailError(true);
+    }
+  };
 
   useEffect(() => {
     const { email, password } = form;
-    if (email === '' || password === '') {
+    if (email === '' || password.length < 8 || emailError === false) {
       setError(true);
     } else {
       setError(false);
     }
-  }, [form]);
+  }, [form, emailError]);
   return (
     <LoginFormBlock>
       <h3>로그인</h3>
@@ -82,6 +94,7 @@ function LoginForm() {
           type="email"
           value={form.email}
           onChange={onChange}
+          onKeyUp={onCheckEmail}
           placeholder="이메일을 입력해주세요"
         />
         <StyledInput
