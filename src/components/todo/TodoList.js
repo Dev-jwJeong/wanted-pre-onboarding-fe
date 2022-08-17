@@ -10,19 +10,14 @@ const TodoListBlock = styled.div`
 `;
 
 function TodoList() {
-  const { todo, onToggle, toggle } = useTodoListHook();
+  const { todo } = useTodoListHook();
 
   return (
     todo && (
       <>
         <TodoListBlock>
           {todo.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={onToggle}
-              toggle={toggle}
-            />
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </TodoListBlock>
       </>

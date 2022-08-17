@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   changeField,
   createTodoFailure,
@@ -14,6 +15,7 @@ export function useTodoCreateHook() {
     createTodo: todo.createTodo,
   }));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -57,9 +59,9 @@ export function useTodoCreateHook() {
 
   useEffect(() => {
     if (createTodo) {
-      window.location.replace('/todo');
+      window.location.replace('/wanted-pre-onboarding-fe/todo');
     }
-  }, [createTodo]);
+  }, [createTodo, navigate]);
 
   return { onChange, todoText, onGetCreateTodo };
 }

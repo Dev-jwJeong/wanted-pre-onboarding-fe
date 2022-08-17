@@ -2,8 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete, MdMode } from 'react-icons/md';
 import { useTodoItemHook } from '../../hooks/todo/useTodoItemHook';
-import ModifyTodo from './ModifyTodo';
-import { useTodoListHook } from '../../hooks/todo/useTodoListHook';
+import { useNavigate } from 'react-router-dom';
 
 const TodoItemBlock = styled.div`
   display: flex;
@@ -49,12 +48,16 @@ const ExtraBlock = styled.div`
   }
 `;
 
-function TodoItem({ toggle, todo, onToggle }) {
-  const { onDeleteTodo } = useTodoItemHook();
-  const { onGetCheckTodo } = useTodoListHook();
+function TodoItem({ todo }) {
+  const { onDeleteTodo, onGetCheckTodo } = useTodoItemHook();
+  const navigate = useNavigate();
+
+  const onMoveModify = (id) => {
+    navigate(`/todo/modify/${id}`);
+  };
+
   return (
     <>
-      {toggle && <ModifyTodo onToggle={onToggle} id={todo.id} />}
       <TodoItemBlock>
         <CheckCircle
           done={todo.isCompleted}
@@ -64,7 +67,7 @@ function TodoItem({ toggle, todo, onToggle }) {
         </CheckCircle>
         <Text>{todo.todo}</Text>
         <ExtraBlock>
-          <MdMode onClick={onToggle} />
+          <MdMode onClick={() => onMoveModify(todo.id)} />
           <MdDelete onClick={() => onDeleteTodo(todo.id)} />
         </ExtraBlock>
       </TodoItemBlock>
