@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import ModifyPage from './pages/ModifyPage';
 import RegisterPage from './pages/RegisterPage';
 import TodoPage from './pages/TodoPage';
 
@@ -17,6 +18,7 @@ function App() {
         path="/todo"
         element={isLogin ? <TodoPage /> : <Navigate replace to="/" />}
       />
+      <Route path="/todo/modify/:id" element={<ModifyPage />} />
     </Routes>
   );
 }
