@@ -1,6 +1,7 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useTodoListHook } from '../../hooks/todo/useTodoListHook';
+import { useTodoItemHook } from '../../hooks/todo/useTodoItemHook';
 
 const ModifyTodoBlock = styled.div`
   position: absolute;
@@ -40,9 +41,10 @@ const StyledInput = styled.input`
   line-height: 1.5;
 `;
 
-function ModifyTodo({ onToggle, id }) {
-  const { updateText, onChange, onGetUpdateTodo } = useTodoListHook();
-
+function ModifyTodo() {
+  const { updateText, onChange, onGetUpdateTodo } = useTodoItemHook();
+  const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <ModifyTodoBlock>
       <ModifyForm>
@@ -54,7 +56,7 @@ function ModifyTodo({ onToggle, id }) {
           >
             수정하기
           </button>
-          <button style={{ marginLeft: '1rem' }} onClick={onToggle}>
+          <button style={{ marginLeft: '1rem' }} onClick={() => navigate(-1)}>
             취소
           </button>
         </div>
