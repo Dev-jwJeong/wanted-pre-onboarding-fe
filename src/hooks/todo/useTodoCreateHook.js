@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { instance } from '../../api/customAxios';
 import {
   changeField,
   createTodoFailure,
@@ -31,8 +31,8 @@ export function useTodoCreateHook() {
     // eslint-disable-next-line no-useless-escape
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
     try {
-      await axios.post(
-        'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos',
+      await instance.post(
+        'todos',
         {
           todo: todoText,
         },

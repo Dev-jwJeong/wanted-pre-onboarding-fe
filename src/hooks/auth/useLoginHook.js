@@ -5,9 +5,9 @@ import {
   loginFailure,
   loginSuccess,
 } from '../../store/authSlice';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { instance } from '../../api/customAxios';
 
 export function useLoginHook() {
   const { form, auth, authError } = useSelector(({ auth }) => ({
@@ -33,13 +33,10 @@ export function useLoginHook() {
   async function signIn() {
     const { email, password } = form;
     try {
-      const response = await axios.post(
-        ' https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/auth/signin',
-        {
-          email,
-          password,
-        },
-      );
+      const response = await instance.post('auth/signin', {
+        email,
+        password,
+      });
       dispatch(loginSuccess(response.data.access_token));
     } catch (e) {
       dispatch(loginFailure(e));

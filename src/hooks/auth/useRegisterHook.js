@@ -5,9 +5,9 @@ import {
   registerFailure,
   registerSuccess,
 } from '../../store/authSlice';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { instance } from '../../api/customAxios';
 
 export function useRegisterHook() {
   const { form, registerToken } = useSelector(({ auth }) => ({
@@ -32,13 +32,10 @@ export function useRegisterHook() {
   async function signUp() {
     const { email, password } = form;
     try {
-      const response = await axios.post(
-        ' https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/auth/signup',
-        {
-          email,
-          password,
-        },
-      );
+      const response = await instance.post('auth/signup', {
+        email,
+        password,
+      });
       dispatch(registerSuccess(response.data));
     } catch (e) {
       dispatch(registerFailure(e));

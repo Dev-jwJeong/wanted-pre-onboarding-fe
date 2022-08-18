@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { instance } from '../../api/customAxios';
 import { getTodoFailure, getTodoSuccess } from '../../store/todoSlice';
 
 export function useTodoListHook() {
@@ -14,14 +14,11 @@ export function useTodoListHook() {
       // eslint-disable-next-line no-useless-escape
       const access_token = localStorage.getItem('token').replace(/\"/gi, '');
       try {
-        const response = await axios.get(
-          'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos',
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
+        const response = await instance.get('todos', {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
           },
-        );
+        });
         dispatch(getTodoSuccess(response.data));
       } catch (e) {
         dispatch(getTodoFailure(e));

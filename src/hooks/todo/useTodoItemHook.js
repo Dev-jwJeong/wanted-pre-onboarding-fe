@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { instance } from '../../api/customAxios';
 import {
   changeField,
   deleteTodoFailure,
@@ -31,8 +31,8 @@ export function useTodoItemHook() {
     // eslint-disable-next-line no-useless-escape
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
     try {
-      await axios.put(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
+      await instance.put(
+        `todos/${id}`,
         {
           todo: text,
           isCompleted: !completed,
@@ -53,8 +53,8 @@ export function useTodoItemHook() {
     // eslint-disable-next-line no-useless-escape
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
     try {
-      await axios.put(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
+      await instance.put(
+        `todos/${id}`,
         {
           todo: updateText,
           isCompleted: false,
@@ -93,14 +93,11 @@ export function useTodoItemHook() {
     // eslint-disable-next-line no-useless-escape
     const access_token = localStorage.getItem('token').replace(/\"/gi, '');
     try {
-      await axios.delete(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
+      await instance.delete(`todos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
         },
-      );
+      });
       dispatch(deleteTodoSuccess(true));
     } catch (e) {
       dispatch(deleteTodoFailure(e));
