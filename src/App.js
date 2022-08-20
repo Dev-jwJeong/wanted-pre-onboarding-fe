@@ -4,9 +4,11 @@ import LoginPage from './pages/LoginPage';
 import ModifyPage from './pages/ModifyPage';
 import RegisterPage from './pages/RegisterPage';
 import TodoPage from './pages/TodoPage';
+import RouteChangeTracker from './RouteChangeTracker';
 
 let isLogin = localStorage.getItem('token');
 function App() {
+  RouteChangeTracker();
   return (
     <Routes>
       <Route

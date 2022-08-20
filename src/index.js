@@ -6,8 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import ReactGA from 'react-ga';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRAKING_ID;
+ReactGA.initialize(TRACKING_ID);
 root.render(
   <Provider store={store}>
     <BrowserRouter basename="/wanted-pre-onboarding-fe/">
